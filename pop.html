@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>RINX 18周年記念祭 POP</title>
+    <style>
+        body {
+            margin: 0;
+            /* 春の青空イメージのグラデーション背景 */
+            background: radial-gradient(circle at top, #e8f7ff, #b3e0ff 45%, #6fb6ff 80%);
+            color: white;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px 0 40px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .pop-container {
+            border: 15px solid #ffdb00; /* 金色風の縁取り */
+            background: white;
+            color: #333;
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 2;
+        }
+        /* ゴージャスなタイトル */
+        .title-sub {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 0;
+            letter-spacing: 0.25em;
+            background: linear-gradient(180deg, #d4af37 0%, #f4e4a6 25%, #c9a227 50%, #f7e98e 75%, #b8860b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) drop-shadow(0 0 12px rgba(212,175,55,0.5));
+            animation: bounceTitle 1.5s infinite ease-in-out;
+        }
+        .title-main {
+            font-size: 4.8rem;
+            margin: 10px 0;
+            line-height: 1.1;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            background: linear-gradient(180deg, #8b0000 0%, #e60012 20%, #ff4757 40%, #e60012 60%, #a52a2a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3)) drop-shadow(0 0 20px rgba(230,0,18,0.35));
+            animation: bounceTitle 1.5s infinite ease-in-out;
+        }
+        
+        .counter-box {
+            background: #000;
+            color: #ffdb00;
+            display: inline-block;
+            padding: 20px 50px;
+            border-radius: 10px;
+            margin: 20px 0 10px;
+        }
+        .counter-label { font-size: 1.5rem; display: block; }
+        .counter-number { font-size: 8rem; font-weight: bold; line-height: 1; }
+
+        .store-select-wrap {
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            color: #666;
+        }
+        .store-select-wrap label { margin-right: 8px; }
+        .store-select-wrap select {
+            padding: 6px 12px;
+            font-size: 1rem;
+            border: 2px solid #ffdb00;
+            border-radius: 8px;
+            background: #fffef5;
+        }
+
+        .applicants-section {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 2px dashed #ffdb00;
+            text-align: left;
+        }
+        .applicants-section h3 {
+            font-size: 1.1rem;
+            color: #e60012;
+            margin: 0 0 10px;
+        }
+        .applicants-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .applicants-grid input {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .applicants-grid input::placeholder {
+            color: #aaa;
+        }
+
+        .benefit {
+            background: #fff3b8;
+            border: 3px dashed #e60012;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .benefit-title { font-size: 2.2rem; font-weight: bold; color: #e60012; }
+        .benefit-price { font-size: 2.5rem; color: #333; font-weight: bold; }
+        .highlight { color: #e60012; font-size: 3.5rem; }
+
+        .period { font-size: 1.2rem; margin-top: 20px; color: #666; }
+
+        @media print {
+            .store-select-wrap,
+            .applicants-section {
+                display: none !important;
+            }
+        }
+
+        /* 桜の花びら */
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .confetti span {
+            position: absolute;
+            width: 14px;
+            height: 18px;
+            background: #ffb7c5;
+            opacity: 0.95;
+            border-radius: 70% 15% 70% 15%; /* 花びらっぽい形 */
+            transform-origin: center center;
+            box-shadow: 0 0 4px rgba(255, 183, 197, 0.8);
+            animation: fall 5s linear infinite;
+        }
+        .confetti span:nth-child(3n) {
+            background: #ffd1e0;
+        }
+        .confetti span:nth-child(4n) {
+            background: #ffe5ee;
+        }
+        .confetti span:nth-child(5n) {
+            background: #ff9bb5;
+        }
+        .confetti span:nth-child(odd) {
+            animation-duration: 6.5s;
+        }
+        .confetti span:nth-child(even) {
+            animation-duration: 4.8s;
+        }
+        
+        /* 動きの演出 */
+        .flash { animation: flash 1s infinite; }
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes bounceTitle {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-6px) scale(1.03); }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translate3d(0, -100%, 0) rotateZ(0deg);
+            }
+            100% {
+                transform: translate3d(0, 120vh, 0) rotateZ(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="confetti" id="confetti"></div>
+
+<div class="pop-container">
+    <div class="store-select-wrap">
+        <label for="storeSelect">店舗：</label>
+        <select id="storeSelect"></select>
+    </div>
+
+    <div class="title-sub">＼ 感謝の還元祭 ／</div>
+    <div class="title-main">RINX 18周年記念祭</div>
+    
+    <div class="counter-box">
+        <span class="counter-label">各店先着限定</span>
+        <span class="counter-number" id="counterNumber">残り 20 名</span>
+    </div>
+
+    <div class="benefit">
+        <div class="benefit-title">全身脱毛お申し込みで</div>
+        <div class="benefit-price">ヒゲ脱毛が <span class="highlight flash">0円!!</span></div>
+        <div style="font-size: 1.5rem;">（最大84,000円分を無料プレゼント）</div>
+    </div>
+
+    <div class="period">
+        開催期間：3月1日(日) 〜 4月30日(木)<br>
+        <small>※上限に達し次第、予告なく終了いたします</small>
+    </div>
+
+    <div class="applicants-section">
+        <h3>申込者</h3>
+        <div class="applicants-grid" id="applicantsGrid"></div>
+    </div>
+</div>
+
+<script>
+    // 桜の花びらを JavaScript で大量生成（約120枚）
+    (function () {
+        const container = document.getElementById('confetti');
+        if (!container) return;
+        const petalCount = 120;
+        for (let i = 0; i < petalCount; i++) {
+            const span = document.createElement('span');
+            span.style.left = Math.random() * 100 + '%';
+            span.style.animationDelay = Math.random() * 5 + 's';
+            span.style.animationDuration = (4 + Math.random() * 4) + 's';
+            container.appendChild(span);
+        }
+    })();
+
+    // 店舗別データ・申込者20名・残数連動
+    (function () {
+        const STORE_COUNT = 29;
+        const APPLICANT_SLOTS = 20;
+        const STORAGE_PREFIX = 'rinx_pop_store_';
+
+        const storeSelect = document.getElementById('storeSelect');
+        const counterNumber = document.getElementById('counterNumber');
+        const applicantsGrid = document.getElementById('applicantsGrid');
+
+        if (!storeSelect || !counterNumber || !applicantsGrid) return;
+
+        function getStoreId() {
+            return parseInt(storeSelect.value, 10) || 1;
+        }
+
+        function loadStore(storeId) {
+            try {
+                const raw = localStorage.getItem(STORAGE_PREFIX + storeId);
+                if (raw) {
+                    const data = JSON.parse(raw);
+                    if (Array.isArray(data.applicants) && data.applicants.length === APPLICANT_SLOTS) {
+                        return data.applicants;
+                    }
+                }
+            } catch (e) {}
+            return Array(APPLICANT_SLOTS).fill('');
+        }
+
+        function saveStore(storeId, applicants) {
+            try {
+                localStorage.setItem(STORAGE_PREFIX + storeId, JSON.stringify({ applicants: applicants }));
+            } catch (e) {}
+        }
+
+        function countFilled(applicants) {
+            return applicants.filter(function (s) { return String(s).trim() !== ''; }).length;
+        }
+
+        function updateCounter(filledCount) {
+            const remaining = Math.max(0, APPLICANT_SLOTS - filledCount);
+            counterNumber.textContent = '残り ' + remaining + ' 名';
+        }
+
+        // 店舗名リスト（1〜29の順）
+        var storeNames = [
+            '埼玉大宮店', '宮城仙台店', '埼玉越谷店', '栃木宇都宮店', '埼玉川口店',
+            '埼玉川越店', '山形駅前店', '福岡博多店', '福岡天神店', '鹿児島店',
+            '北九州小倉店', '名古屋栄店', '岐阜駅前店', '愛知豊田店', '岐阜多治見店',
+            '愛知岡崎店', '石川金沢店', '名古屋金山店', '愛知一宮店', '東京上野店',
+            '千葉中央店', '大阪天王寺店', '秋田駅前店', '千葉木更津店', '大阪堺東店',
+            '熊本新市街店', '大分駅前店', '長崎店', '宮崎店'
+        ];
+        for (var i = 1; i <= STORE_COUNT; i++) {
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = storeNames[i - 1];
+            storeSelect.appendChild(opt);
+        }
+
+        // 前回選択店舗を復元
+        var lastStore = localStorage.getItem('rinx_pop_last_store');
+        if (lastStore) {
+            var n = parseInt(lastStore, 10);
+            if (n >= 1 && n <= STORE_COUNT) storeSelect.value = n;
+        }
+
+        // 申込者入力欄を20個生成
+        var applicantInputs = [];
+        for (var j = 0; j < APPLICANT_SLOTS; j++) {
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = (j + 1);
+            input.setAttribute('data-index', j);
+            applicantInputs.push(input);
+            applicantsGrid.appendChild(input);
+        }
+
+        function applyApplicants(applicants) {
+            applicants.forEach(function (val, idx) {
+                if (applicantInputs[idx]) applicantInputs[idx].value = val;
+            });
+        }
+
+        function collectApplicants() {
+            return applicantInputs.map(function (inp) { return inp.value.trim(); });
+        }
+
+        function onDataChange() {
+            var applicants = collectApplicants();
+            var storeId = getStoreId();
+            saveStore(storeId, applicants);
+            updateCounter(countFilled(applicants));
+        }
+
+        storeSelect.addEventListener('change', function () {
+            localStorage.setItem('rinx_pop_last_store', getStoreId());
+            var applicants = loadStore(getStoreId());
+            applyApplicants(applicants);
+            updateCounter(countFilled(applicants));
+        });
+
+        applicantInputs.forEach(function (input) {
+            input.addEventListener('input', onDataChange);
+            input.addEventListener('change', onDataChange);
+        });
+
+        // 初期表示
+        var initial = loadStore(getStoreId());
+        applyApplicants(initial);
+        updateCounter(countFilled(initial));
+    })();
+</script>
+
+</body>
+</html>
